@@ -111,7 +111,7 @@
                     android:id="@+id/sides"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:background="@drawable/pizza"/>
+                    android:background="@drawable/other2"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -241,7 +241,7 @@
                     <ImageView
                         android:layout_width="140dp"
                         android:layout_height="140dp"
-                        android:src="@drawable/mypizza1"/>
+                        android:src="@drawable/mypizza1" />
 
                 </android.support.v7.widget.CardView>
 
