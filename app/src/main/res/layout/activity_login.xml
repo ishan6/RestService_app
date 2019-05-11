@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".SignUpActivity"
+    android:background="@drawable/gredient1">
+
+    <LinearLayout
+        android:id="@+id/top"
+        android:paddingTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="0dp"
+
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="50dp"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/pizzalogo5"/>
+
+                <RelativeLayout
+                    android:id="@+id/reley1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/logo">
+
+                    <TextView
+                        android:id="@+id/login"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Log In"
+                        android:textColor="@color/white"
+                        android:textSize="30sp"/>
+
+                    <LinearLayout
+                        android:id="@+id/lenear1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/login">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/text_telephone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:text="Mobile Number"
+                                android:textAllCaps="true"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"/>
+
+
+                            <EditText
+                                android:layout_below="@+id/text_username"
+                                android:id="@+id/telephone"
+                                android:drawablePadding="5dp"
+                                android:drawableLeft="@drawable/ic_person"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/custom_text"
+                                android:fontFamily="sans-serif-light"
+                                android:paddingLeft="15dp"
+                                android:inputType="number"
+                                android:paddingRight="15dp"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"/>
+
+
+                            <TextView
+                                android:paddingTop="5dp"
+                                android:id="@+id/txt_password"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:text="Password"
+                                android:textAllCaps="true"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"/>
+
+
+                            <EditText
+                                android:id="@+id/password"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="5dp"
+                                android:inputType="textPassword"
+                                android:drawablePadding="5dp"
+                                android:background="@drawable/custom_text"
+                                android:fontFamily="sans-serif-light"
+                                android:paddingLeft="15dp"
+                                android:drawableLeft="@drawable/ic_lock"
+                                android:paddingRight="15dp"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"/>
+
+                            <TextView
+                                android:id="@+id/txt_forgetpass"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="sans-serif-light"
+                                android:text="Forgot Password"
+                                android:textColor="#ECE4E4"
+                                android:textSize="15sp"
+                                android:clickable="true"/>
+
+                         </LinearLayout>
+                </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btn_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_below="@+id/lenear1"
+                        android:layout_marginTop="30dp"
+                        android:text="Log In"
+                        android:textColor="@color/white"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingRight="70dp"
+                        android:textSize="16sp"
+                        android:paddingLeft="70dp"
+                        android:background="@drawable/btn_custom"/>
+
+                    <TextView
+                        android:id="@+id/txt_signup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/btn_login"
+                        android:text="Still not Registered? Register"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="#fff"
+                        android:layout_marginTop="30dp"
+                        android:clickable="true"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

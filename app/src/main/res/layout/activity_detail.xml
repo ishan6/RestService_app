@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/top"
+            android:layout_marginTop="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:src="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:text="Pizza Price"
+                    android:layout_alignBottom="@+id/image"
+                    android:textStyle="bold"
+                    android:textColor="#fff"
+                    android:textSize="25sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="7dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp">
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:textSize="25dp"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:text="Pizza name"
+                        android:textColor="#03A9F4"
+                        android:layout_marginBottom="10dp"/>
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="300dp"
+                        android:textSize="15sp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/name"
+                        android:text="Pizza Description"/>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Pizza Type"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"/>
+
+
+            <HorizontalScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp">
+
+                    <android.support.v7.widget.CardView
+                        android:layout_margin="5dp"
+                        android:id="@+id/small"
+                        android:layout_width="140dp"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        android:clickable="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/mypizza1"/>
+
+                            <TextView
+                                android:layout_marginTop="20dp"
+                                android:layout_marginLeft="10dp"
+                                android:id="@+id/smallpizzza"
+                                android:text="Small"
+                                android:textSize="15sp"
+                                android:layout_width="60dp"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text='6"- Serves 1'
+                            android:textSize="10sp"
+                            android:layout_marginLeft="70dp"
+                            android:layout_marginTop="40dp"/>
+
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_margin="5dp"
+                        android:clickable="true"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/medium"
+                        android:layout_width="140dp"
+                        android:layout_height="70dp"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/mypizza1"/>
+
+                            <TextView
+                                android:layout_marginTop="20dp"
+                                android:layout_marginLeft="10dp"
+                                android:id="@+id/mediumpizzza"
+                                android:text="Medium"
+                                android:textSize="15sp"
+                                android:layout_width="60dp"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="40dp"
+                            android:layout_marginLeft="70dp"
+                            android:textSize="10sp"
+                            android:text='8.5"- Serves 2 '/>
+
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_margin="5dp"
+                        android:clickable="true"
+                        android:id="@+id/large"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="150dp"
+                        android:layout_height="70dp"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/mypizza1"/>
+
+                            <TextView
+                                android:layout_marginTop="20dp"
+                                android:layout_marginLeft="10dp"
+                                android:id="@+id/largepizzza"
+                                android:layout_width="60dp"
+                                android:text="Large"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text='11"- Serves 4'
+                            android:textSize="10sp"
+                            android:layout_marginLeft="70dp"
+                            android:layout_marginTop="40dp"/>
+
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+
+
+
+
+
+
+
+
+            </HorizontalScrollView>
+
+
+            <TextView
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quentity"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <Button
+                    android:id="@+id/minus"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:text="-"
+                    android:textStyle="bold"
+                    android:textSize="10sp">
+
+                </Button>
+
+                <TextView
+                    android:layout_marginTop="7dp"
+                    android:id="@+id/minusplus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:text="1"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center">
+
+                </TextView>
+
+                <Button
+                    android:textSize="10sp"
+                    android:id="@+id/plus"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:text="+">
+                </Button>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp">
+
+                    <CheckBox
+                        android:id="@+id/addcheese"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginRight="5dp"
+                        android:checked="true"
+                        android:textColorHighlight="#4CAF50" />
+
+                    <TextView
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add extra cheese @ Rs.160"/>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/noscroll"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/top"
+            android:background="#03219B">
+
+            <TextView
+                android:id="@+id/qty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:background="#03219B"
+                android:padding="3dp"
+                android:text="1 Item"
+                android:textColor="#fff"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#03219B"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#fff"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="|"
+                android:padding="3dp" />
+
+            <TextView
+                android:id="@+id/allprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#03219B"
+                android:layout_weight="1"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Rs.4200"
+                android:padding="3dp" />
+
+            <Button
+                android:id="@+id/addToCart"
+                android:clickable="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="110dp"
+                android:layout_height="35dp"
+                android:text="Add To Cart"
+                android:textColor="#ffff"
+                android:background="#4257E6"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>
