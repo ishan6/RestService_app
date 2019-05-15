@@ -31,6 +31,24 @@
                 android:src="@drawable/pizza7"
                 android:scaleType="fitXY"/>
 
+            <LinearLayout
+                android:id="@+id/editlinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <TextView
+                    android:id="@+id/editCart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit"
+                    android:textColor="#0D2DDD"
+                    android:layout_toRightOf="@id/name"
+                    android:drawableLeft="@drawable/ic_edit"
+                    android:drawablePadding="5dp"/>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
@@ -38,6 +56,7 @@
                 android:layout_marginLeft="5dp"
                 android:textStyle="bold"
                 android:text="Pizza Name"
+                android:layout_below="@id/editlinear"
                 android:textColor="#111010"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:layout_toRightOf="@id/image"/>

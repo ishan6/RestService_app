@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
@@ -16,9 +20,15 @@ import java.util.List;
 
 public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolder>{
 
-    private Context mtx;
+    int id;
+
+    public Context mtx;
     private List<Cart> cartList;
     private CartAdapter.OnItemClickListner mListner;
+
+    public CartAdapter() {
+
+    }
 
     public interface OnItemClickListner{
         void  onItemClick(int position);
@@ -38,12 +48,13 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
         LayoutInflater inflater = LayoutInflater.from(mtx);
         View view = inflater.inflate(R.layout.cart_item, null);
         // ProductViewHolder holder = new ProductViewHolder(view);
+
         return new CartViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(CartViewHolder holder, int position) {
-        Cart cart = cartList.get(position);
+    public void onBindViewHolder(final CartViewHolder holder, int position) {
+        final Cart cart = cartList.get(position);
 
         String PizzaName = cart.getPizzaname();
         Double PizzaPrice = cart.getTotal();
@@ -60,6 +71,20 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
 
         Glide.with(mtx).load(PizzaImage).into(holder.imageView);
 
+        holder.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             //   System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+holder.remove.getId());
+                CartActivity cartActivity = new CartActivity();
+                    final int x = cartActivity.clicked_item;
+
+               //     cartActivity.onItemClick(int);
+
+          //      System.out.println("aaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssssss"+x);
+            }
+        });
+
+
     }
 
     @Override
@@ -69,7 +94,7 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
 
     public class CartViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView textname, textViewdescription, textViewtotal, textsize, textitem;
+        public TextView textname, textViewdescription, textViewtotal, textsize, textitem, remove;
         public ImageView imageView;
 
         public CartViewHolder(View itemView) {
@@ -81,6 +106,9 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
             textsize = itemView.findViewById(R.id.size);
             textitem = itemView.findViewById(R.id.item);
             textViewtotal = itemView.findViewById(R.id.price);
+
+            remove = itemView.findViewById(R.id.remove);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

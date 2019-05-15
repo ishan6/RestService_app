@@ -2,12 +2,9 @@ package com.example.restservice_app;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -29,7 +26,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DetailActivity extends AppCompatActivity {
+public class EditCartActivity extends AppCompatActivity {
 
     //web url
     final String URL = "http://192.168.42.131:8080/demo/add_to_cart";
@@ -68,7 +65,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_edit_cart);
 
         pizzaname = findViewById(R.id.name);
         smallpizza = findViewById(R.id.smallpizzza);
@@ -107,7 +104,7 @@ public class DetailActivity extends AppCompatActivity {
         final int Pizza_id = intent.getIntExtra("PIZZA_ID",1);
         final int User_id = intent.getIntExtra("USER_ID",1);
 
-     // System.out.println(User_id+"dddddddddddddddddddddddddddddddddddddddddddddd");
+        // System.out.println(User_id+"dddddddddddddddddddddddddddddddddddddddddddddd");
         final Double pizzawithCheese1 = pizzaprice1+160;
         final Double pizzawithCheese2 = pizzaprice2+160;
         final Double pizzawithCheese3 = pizzaprice3+160;
@@ -119,7 +116,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
         //setting data to xml file
-        Glide.with(DetailActivity.this).load(imgurl).into(pizzaimage);
+        Glide.with(EditCartActivity.this).load(imgurl).into(pizzaimage);
         pizzaname.setText(pizzaname1);
         pizzadescription.setText(pizzadescription1);
         pizzaprice.setText("Rs." + pizzaprice1);
@@ -287,7 +284,7 @@ public class DetailActivity extends AppCompatActivity {
                 if(qty < 5) {
                     qty++;
                 }else{
-                    Toast.makeText(DetailActivity.this, "FIVE Pizzas can be ordered maximally!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditCartActivity.this, "FIVE Pizzas can be ordered maximally!", Toast.LENGTH_SHORT).show();
                 }
 
                 //calculate small pizza price
@@ -432,7 +429,7 @@ public class DetailActivity extends AppCompatActivity {
                     PizzaSize = "Large";
                 }
                 try {
-                 //   System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa+"+User_id);
+                    //   System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa+"+User_id);
                     js1.put("user_id", User_id);
                     js1.put("pizza_id", Pizza_id);
                     js1.put("pizzaname", Pizzaname1);
@@ -476,12 +473,11 @@ public class DetailActivity extends AppCompatActivity {
                 };
 
                 // Adding request to request queue
-                Volley.newRequestQueue(DetailActivity.this).add(jsonObjReq);
+                Volley.newRequestQueue(EditCartActivity.this).add(jsonObjReq);
 
-                Intent cartdetails = new Intent(DetailActivity.this, CartActivity.class);
+                Intent cartdetails = new Intent(EditCartActivity.this, CartActivity.class);
                 startActivity(cartdetails);
             }
         });
     }
 }
-
