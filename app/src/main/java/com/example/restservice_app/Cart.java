@@ -2,6 +2,7 @@ package com.example.restservice_app;
 
 public class Cart {
 
+    private  int id;
     private int user_id;
     private int pizza_id;
     private String pizzaname;
@@ -12,6 +13,27 @@ public class Cart {
     private String img_url;
     private int cart_status;
 
+
+    public Cart(int id, int user_id, int pizza_id, String pizzaname, String size, String description, int item, Double total, String img_url, int cart_status) {
+        this.id = id;
+        this.user_id = user_id;
+        this.pizza_id = pizza_id;
+        this.pizzaname = pizzaname;
+        this.size = size;
+        this.description = description;
+        this.item = item;
+        this.total = total;
+        this.img_url = img_url;
+        this.cart_status = cart_status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getUser_id() {
         return user_id;

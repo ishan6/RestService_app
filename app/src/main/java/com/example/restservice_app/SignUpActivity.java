@@ -46,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     TextView login;
 
-    final String URL = "http://192.168.42.211:8080/demo/register";
+    final String URL = "http://192.168.42.59:8080/demo/register";
 
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 

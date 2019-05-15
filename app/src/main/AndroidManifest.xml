@@ -8,14 +8,17 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:hardwareAccelerated="false"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LandingActivity"
-            android:theme="@style/Theme.Design.Light.NoActionBar">
-
-        </activity>
-        <activity android:name=".ResetPassActivity" />
+        <activity android:name=".CheckOutActivity"></activity>
+        <activity
+            android:name=".LandingActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
+        <activity android:name=".ResetPassActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".CartActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar" />

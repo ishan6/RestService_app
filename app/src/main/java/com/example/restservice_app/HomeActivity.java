@@ -23,7 +23,7 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements ProductAdapter.OnItemClickListner {
 
-    private static final String URL_DATA = "http://192.168.42.211:8080/demo/all";
+    private static final String URL_DATA = "http://192.168.42.59:8080/demo/all";
 
     RecyclerView recyclerView;
     ProductAdapter adapter;

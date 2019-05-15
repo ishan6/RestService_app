@@ -1,27 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <android.support.v4.widget.NestedScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        
+
         <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="20sp"
+            android:id="@+id/txt_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment Method"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card1"
+            android:layout_margin="10dp"
+            android:layout_below="@+id/txt_payment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="fdfdfdfd"/>
+            android:layout_height="40dp">
 
-    </android.support.v4.widget.NestedScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:paddingTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Cash on Delivery"
+                    android:drawableLeft="@drawable/ic_monetization"
+                    android:drawablePadding="10dp"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
 
 
-</LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@id/card1"
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="fdfdfdfdfdfdfdfdf"/>
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card2"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="fdfdfdfdfdfdfdfdf"/>
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card3"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/card2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="fdfdfdfdfdfdfdfdf"/>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/card4"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/card3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/linear1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sub Total"/>
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="             :        "/>
+
+                    <TextView
+                        android:id="@+id/txt_tot"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:paddingRight="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Rs.2000.00" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/linear2"
+                    android:layout_below="@+id/linear1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Discount"/>
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="               :       "/>
+
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:paddingRight="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="          -           " />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/linear3"
+                    android:layout_below="@+id/linear2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="delevery Charge"/>
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="  :       "/>
+
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:paddingRight="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Rs.100.00" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/linear4"
+                    android:layout_below="@+id/linear3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:textColor="#030303"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Grand Total"/>
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="          :       "/>
+
+
+                    <TextView
+                        android:id="@+id/txt_grandtot"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:paddingRight="5dp"
+                        android:textColor="#0F0F0F"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rs.100.00" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+
+
+
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>

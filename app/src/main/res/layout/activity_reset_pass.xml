@@ -1,9 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ResetPassActivity">
+    tools:context=".ResetPassActivity"
+    android:background="@drawable/gredient1">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:id="@+id/text_resetEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="E-mail"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
+
+        <EditText
+            android:drawableLeft="@drawable/ic_mail"
+            android:drawablePadding="5dp"
+            android:id="@+id/nic"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/custom_text"
+            android:fontFamily="sans-serif-light"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="Submit"
+            android:background="@drawable/btn_custom"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ffff"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
