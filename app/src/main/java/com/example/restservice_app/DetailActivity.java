@@ -32,7 +32,7 @@ import java.util.Map;
 public class DetailActivity extends AppCompatActivity {
 
     //web url
-    final String URL = "http://192.168.42.189:8080/demo/add_to_cart";
+    final String URL = "http://192.168.42.137:8080/demo/add_to_cart";
 
     CardView small, medium, large;
 
@@ -433,7 +433,7 @@ public class DetailActivity extends AppCompatActivity {
                 }
                 try {
                  //   System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa+"+User_id);
-                    js1.put("user_id", User_id);
+                    js1.put("userid", User_id);
                     js1.put("pizza_id", Pizza_id);
                     js1.put("pizzaname", Pizzaname1);
                     js1.put("size", PizzaSize);

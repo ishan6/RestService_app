@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //url and Request Queue
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://192.168.42.138:8080/demo/showusers";
+        String url ="http://192.168.42.137:8080/demo/showusers";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url,
                 null, new LoginActivity.HTTPResponseListner(), new LoginActivity.HTTPErrorListner());

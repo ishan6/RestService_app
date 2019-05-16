@@ -65,15 +65,13 @@ public class EditCartActivity extends Activity {
     //To add Dataabse
     String PizzaSize;
 
-    Double pizzaprice1;
-    Double pizzaprice2;
-    Double pizzaprice3;
+    Double pizzaprice1 = 0.00;
+    Double pizzaprice2 = 0.00;
+    Double pizzaprice3 = 0.00;
 
     static String URL1;
 
-    RequestQueue requestQueue;
 
-    Double x;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +122,10 @@ public class EditCartActivity extends Activity {
 
         final Double Total = intent.getDoubleExtra("PRICE", 0.00);
         System.out.println(Total);
-/*
+
+        final int Item_id = intent.getIntExtra("ITEM_ID", 0);
+        System.out.println(Item_id+"#####################################################333333");
+
         qty = qty + (item_count - 1);
 
         itemcount.setText(qty + " Items");
@@ -133,9 +134,10 @@ public class EditCartActivity extends Activity {
         pizzaprice.setText("Rs." + Total);
         allprice1.setText("Rs. " + Total);
 
+        Allprice = pizzaprice1;
 
         if (Pizza_size.equals("Small")) {
-            selected_pizza_type = 1;
+           selected_pizza_type = 1;
             small.setCardBackgroundColor(Color.GRAY);
 
         } else if (Pizza_size.equals("Medium")) {
@@ -146,8 +148,6 @@ public class EditCartActivity extends Activity {
             selected_pizza_type = 3;
             large.setCardBackgroundColor(Color.GRAY);
         }
-*/
-        requestQueue = Volley.newRequestQueue(this);
 
 
         //web url
@@ -155,7 +155,7 @@ public class EditCartActivity extends Activity {
         System.out.println(URL1);
 
         LoadPizzaPrices();
-/*
+
         //assign homeActivity data to DetailsActivity's variables
         Imageurl = imgurl;
         PizzaDescription1 = pizzadescription1;
@@ -166,13 +166,6 @@ public class EditCartActivity extends Activity {
         pizzaname.setText(pizzaname1);
         pizzadescription.setText(pizzadescription1);
 
-
-        System.out.println(x + "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println(requestQueue);
-
-         final Double pizzawithCheese1 = pizzaprice1 + 160;
-        final Double pizzawithCheese2 = pizzaprice2 + 160;
-        final Double pizzawithCheese3 = pizzaprice3 + 160;
 
         // disable when starting add additional cheese to pizza
         if (addcheese.isChecked() == true) {
@@ -187,6 +180,7 @@ public class EditCartActivity extends Activity {
                 if (is_checkbox_Checked_or_not == false) {
                     //is pizza type small
                     if (selected_pizza_type == 1) {
+                        Double pizzawithCheese1 = pizzaprice1 + 160;
                         Double pizzawithCheese11 = pizzawithCheese1 * qty;
                         allprice1.setText("Rs." + pizzawithCheese11);
                         pizzaprice.setText("Rs." + pizzawithCheese11);
@@ -194,12 +188,14 @@ public class EditCartActivity extends Activity {
                         is_checkbox_Checked_or_not = true;
 
                     } else if (selected_pizza_type == 2) {
+                        Double pizzawithCheese2 = pizzaprice2 + 160;
                         Double pizzawithCheese22 = pizzawithCheese2 * qty;
                         allprice1.setText("Rs." + pizzawithCheese22);
                         pizzaprice.setText("Rs." + pizzawithCheese22);
                         Allprice = pizzawithCheese22;
                         is_checkbox_Checked_or_not = true;
                     } else if (selected_pizza_type == 3) {
+                        Double pizzawithCheese3 = pizzaprice3 + 160;
                         Double pizzawithCheese33 = pizzawithCheese3 * qty;
                         allprice1.setText("Rs." + pizzawithCheese33);
                         pizzaprice.setText("Rs." + pizzawithCheese33);
@@ -244,6 +240,8 @@ public class EditCartActivity extends Activity {
 
                 //set_pizza_type_to_small
                 selected_pizza_type = 1;
+                System.out.println(selected_pizza_type+"-----------------------------------------------------------------------");
+                PizzaSize = "Small";
 
                 //change price according to selection
                 allprice1.setText("Rs." + pizzaprice1);
@@ -274,6 +272,8 @@ public class EditCartActivity extends Activity {
 
                 //set_pizza_type_to_medium
                 selected_pizza_type = 2;
+                System.out.println(selected_pizza_type+"-----------------------------------------------------------------------");
+                PizzaSize = "Medium";
 
                 //change price according to selection
                 allprice1.setText("Rs." + pizzaprice2);
@@ -304,6 +304,9 @@ public class EditCartActivity extends Activity {
 
                 //set_pizza_type_to_large
                 selected_pizza_type = 3;
+                System.out.println(selected_pizza_type+"-----------------------------------------------------------------------");
+                PizzaSize = "Large";
+
 
                 //change price according to selection
                 allprice1.setText("Rs." + pizzaprice3);
@@ -340,6 +343,7 @@ public class EditCartActivity extends Activity {
 
                     //additional cheese check
                     if (is_checkbox_Checked_or_not == true) {
+                        Double pizzawithCheese1 = pizzaprice1 + 160;
                         Double pizzawithCheese11 = pizzawithCheese1 * qty;
                         allprice1.setText("Rs." + pizzawithCheese11);
                         pizzaprice.setText("Rs." + pizzawithCheese11);
@@ -358,6 +362,7 @@ public class EditCartActivity extends Activity {
 
                     //additional cheese check
                     if (is_checkbox_Checked_or_not == true) {
+                        Double pizzawithCheese2 = pizzaprice2 + 160;
                         Double pizzawithCheese22 = pizzawithCheese2 * qty;
                         allprice1.setText("Rs." + pizzawithCheese22);
                         pizzaprice.setText("Rs." + pizzawithCheese22);
@@ -376,6 +381,7 @@ public class EditCartActivity extends Activity {
 
                     //additional cheese check
                     if (is_checkbox_Checked_or_not == true) {
+                        Double pizzawithCheese3 = pizzaprice3 + 160;
                         Double pizzawithCheese33 = pizzawithCheese3 * qty;
                         allprice1.setText("Rs." + pizzawithCheese33);
                         pizzaprice.setText("Rs." + pizzawithCheese33);
@@ -409,6 +415,7 @@ public class EditCartActivity extends Activity {
 
                     //additional cheese check
                     if (is_checkbox_Checked_or_not == true) {
+                        Double pizzawithCheese1 = pizzaprice1 + 160;
                         Double pizzawithCheese11 = pizzawithCheese1 * qty;
                         allprice1.setText("Rs." + pizzawithCheese11);
                         pizzaprice.setText("Rs." + pizzawithCheese11);
@@ -427,6 +434,7 @@ public class EditCartActivity extends Activity {
 
                     //additional cheese check
                     if (is_checkbox_Checked_or_not == true) {
+                        Double pizzawithCheese2 = pizzaprice2 + 160;
                         Double pizzawithCheese22 = pizzawithCheese2 * qty;
                         allprice1.setText("Rs." + pizzawithCheese22);
                         pizzaprice.setText("Rs." + pizzawithCheese22);
@@ -445,6 +453,7 @@ public class EditCartActivity extends Activity {
 
                     //additional cheese check
                     if (is_checkbox_Checked_or_not == true) {
+                        Double pizzawithCheese3 = pizzaprice3 + 160;
                         Double pizzawithCheese33 = pizzawithCheese3 * qty;
                         allprice1.setText("Rs." + pizzawithCheese33);
                         pizzaprice.setText("Rs." + pizzawithCheese33);
@@ -463,54 +472,69 @@ public class EditCartActivity extends Activity {
             }
         });
 
-/*
+
         Update_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
               RequestQueue queue1 = Volley.newRequestQueue(EditCartActivity.this);
 
-              String  url1 ="http://192.168.42.189:8080/demo/updateCart?id=";
+              String  url1 ="http://192.168.42.137:8080/demo/updateCart?id="+Item_id+"&size="+PizzaSize+"&item="+qty+"&total="+Allprice;
 
                 JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
                         null, new CartActivity.HTTPResponseListner(), new CartActivity.HTTPErrorListner());
                 queue1.add(request1);
+
+                Intent intent1 = new Intent(EditCartActivity.this, CartActivity.class);
+                finish();
+                startActivity(intent1);
             }
         });
-*/
-    }
 
+    }
 
 
     private void LoadPizzaPrices() {
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL1, null, new Response.Listener<JSONObject>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL1, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
                 try {
-                    Double price1 = response.getDouble("price");
-                    x = price1;
-                    System.out.println(pizzaprice1 + "11111111111111111111111111111111111111111111111111111");
+                    JSONArray pizzas  = new JSONArray(response);
 
-                    Double price2 = response.getDouble("medium_price");
-                    pizzaprice2 = price2;
-                    System.out.println(pizzaprice2 + "11111111111111111111111111111111111111111111111111111");
+                    for (int i =0; i<pizzas.length(); i++){
 
-                    Double price3 = response.getDouble("liarge_price");
-                    pizzaprice3 = price3;
-                    System.out.println(pizzaprice3 + "11111111111111111111111111111111111111111111111111111");
+                        JSONObject pizzasJSONObject  = pizzas.getJSONObject(i);
+                        System.out.println("ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt");
+                        Double price1 = pizzasJSONObject.getDouble("price");
+                        pizzaprice1 = price1;
+                        System.out.println(pizzaprice1+"11111111111111111111111111111111111111111111111111111");
 
-                } catch (Exception e) {
+                        Double price2 = pizzasJSONObject.getDouble("medium_price");
+                        pizzaprice2 = price2;
+                        System.out.println(pizzaprice2+"11111111111111111111111111111111111111111111111111111");
+
+                        Double price3 = pizzasJSONObject.getDouble("liarge_price");
+                        pizzaprice3 = price3;
+                        System.out.println(pizzaprice3+"11111111111111111111111111111111111111111111111111111");
+
+                    }
+
+                } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(EditCartActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(EditCartActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                error.printStackTrace();
             }
         });
 
-                requestQueue.add(jsonObjectRequest);
+        Volley.newRequestQueue(EditCartActivity.this).add(stringRequest);
+
     }
 
 }

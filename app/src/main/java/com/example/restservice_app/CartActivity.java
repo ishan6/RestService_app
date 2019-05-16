@@ -57,7 +57,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         sub_tot = findViewById(R.id.txt_tot);
         grand_tot = findViewById(R.id.txt_grandtot);
 
-
         cartlist = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerview);
