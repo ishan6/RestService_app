@@ -366,13 +366,13 @@
                 android:padding="3dp" />
 
             <Button
-                android:id="@+id/addToCart"
+                android:id="@+id/Update_cart"
                 android:clickable="true"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_width="110dp"
                 android:layout_height="35dp"
-                android:text="Add To Cart"
+                android:text="Update Cart"
                 android:textColor="#ffff"
                 android:background="#4257E6"/>
 

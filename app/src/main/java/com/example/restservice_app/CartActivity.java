@@ -1,17 +1,13 @@
 package com.example.restservice_app;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,19 +32,22 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
     TextView sub_tot, grand_tot, remove;
 
     int id = 1;
-    int clicked_item;
+    static int clicked_item;
 
     Double delivery = 100.0;
     Double tot_price = 0.00;
     Double grand_price;
     Double discount;
 
-    String URL_DATA = "http://192.168.42.221:8080/demo/findByCartId?user_id="+id;
+    String URL_DATA = "http://192.168.42.137:8080/demo/findByCartId?user_id="+id;
 
     RecyclerView recyclerView;
     CartAdapter adapter;
 
     List<Cart> cartlist;
+
+   static RequestQueue queue1;
+   static String url1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +66,24 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
 
         loadRecyclerviewData();
 
+
           //  Intent intent = getIntent();
           //  User_id = intent.getIntExtra("USER_ID",1);
           //  System.out.println(User_id +"nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
 
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.cart_item, null);
+
+        remove = view.findViewById(R.id.remove);
+
+        queue1 = Volley.newRequestQueue(CartActivity.this);
+
+        url1 ="http://192.168.42.137:8080/demo/deleteByCartId?id="+clicked_item;
+
     }
 
 
-    private void loadRecyclerviewData(){
+    public void loadRecyclerviewData(){
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -131,65 +140,27 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         });
 
         Volley.newRequestQueue(this).add(stringRequest);
+
     }
 
 
 
 
-    //send data to detail activity
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick( int position) {
 
         final Cart clickItem = cartlist.get(position);
 
-       // String item = (String) clickItem.getItem(position);
+        clicked_item = clickItem.getId();
 
-      //  System.out.println(clickItem.getId()+"sssssssssssssssssssssssssssssssssssssssssssssss");
-
-       // clicked_item = clickItem.getId();
-     //   System.out.println(clicked_item+"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-
-     //   LayoutInflater inflater = getLayoutInflater();
-      //  View view = inflater.inflate(R.layout.cart_item, null);
-
-
-      //   remove = view.findViewById(R.layout.cart_item);
-      //   System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+remove.getId());
-
-
-      //   this.setContentView(view);
-
-      //   remove = (TextView) view.findViewById(R.id.remove);
-
-      //   remove  = (TextView) findViewById(R.id.remove);
-
-/*
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                RequestQueue queue1 = Volley.newRequestQueue(CartActivity.this);
-                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+clickItem);
-
-
-                String url1 ="http://192.168.42.221:8080/demo/deleteByCartId?id="+clicked_item;
-
-                JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
-                        null, new HTTPResponseListner(), new HTTPErrorListner());
-                queue1.add(request1);
-
-                Intent intent = new Intent(CartActivity.this, CartActivity.class);
-                startActivity(intent);
-            }
-        });
-
-*/
-
+        JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
+                null, new HTTPResponseListner(), new HTTPErrorListner());
+        queue1.add(request1);
 
     }
 
 
-    class HTTPResponseListner implements Response.Listener<JSONArray> {
+    static class HTTPResponseListner implements Response.Listener<JSONArray> {
         @Override
         public void onResponse(JSONArray jsonArray) {
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -204,7 +175,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         }
     }
 
-            class HTTPErrorListner implements Response.ErrorListener {
+            static class HTTPErrorListner implements Response.ErrorListener {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                 }

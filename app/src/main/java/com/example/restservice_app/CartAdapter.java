@@ -1,6 +1,8 @@
 package com.example.restservice_app;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +12,15 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -31,7 +37,7 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
     }
 
     public interface OnItemClickListner{
-        void  onItemClick(int position);
+        void  onItemClick( int position);
     }
 
     public void setOnItemCliclListener(OnItemClickListner listener){
@@ -52,8 +58,9 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
         return new CartViewHolder(view);
     }
 
+
     @Override
-    public void onBindViewHolder(final CartViewHolder holder, int position) {
+    public void onBindViewHolder(final CartViewHolder holder, final int position) {
         final Cart cart = cartList.get(position);
 
         String PizzaName = cart.getPizzaname();
@@ -71,21 +78,60 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
 
         Glide.with(mtx).load(PizzaImage).into(holder.imageView);
 
+
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+holder.remove.getId());
                 CartActivity cartActivity = new CartActivity();
-                    final int x = cartActivity.clicked_item;
+                int xx = cart.getId();
 
-               //     cartActivity.onItemClick(int);
+                System.out.println(xx+"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
 
-          //      System.out.println("aaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssssss"+x);
+                RequestQueue x = cartActivity.queue1;
+                System.out.println(x+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaawwwwwwwwa");
+
+               String url1 ="http://192.168.42.137:8080/demo/deleteByCartId?id="+xx;
+
+                JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
+                        null, new CartAdapter.HTTPResponseListner(), new CartAdapter.HTTPErrorListner());
+                x.add(request1);
+
+
+                Intent intent = new Intent(mtx,CartActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ((Activity)mtx).finish();
+                mtx.startActivity(intent);
+
+            }
+        });
+
+        holder.edit_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                System.out.println("Ohhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+
+                Intent intent = new Intent(mtx, EditCartActivity.class);
+
+                intent.putExtra("ITEM_ID", cart.getId());
+                intent.putExtra("PIZZA_ID",cart.getPizza_id());
+                intent.putExtra("PIZZA_NAME", cart.getPizzaname());
+                intent.putExtra("PIZZA_DESCRIPTION", cart.getDescription());
+                intent.putExtra("PIZZA_SIZE", cart.getSize());
+                System.out.println(cart.getSize()+"...............................................................................");
+                intent.putExtra("ITEM_COUNT", cart.getItem());
+                intent.putExtra("PRICE", cart.getTotal());
+                intent.putExtra("IMG_URL", cart.getImg_url());
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ((Activity)mtx).finish();
+                mtx.startActivity(intent);
             }
         });
 
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -94,7 +140,7 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
 
     public class CartViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView textname, textViewdescription, textViewtotal, textsize, textitem, remove;
+        public TextView textname, textViewdescription, textViewtotal, textsize, textitem, remove, edit_cart;
         public ImageView imageView;
 
         public CartViewHolder(View itemView) {
@@ -108,6 +154,7 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
             textViewtotal = itemView.findViewById(R.id.price);
 
             remove = itemView.findViewById(R.id.remove);
+            edit_cart = itemView.findViewById(R.id.editCart);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -117,10 +164,32 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             mListner.onItemClick(position);
+                        //    System.out.println(position+"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                         }
                     }
                 }
             });
+        }
+    }
+
+    class HTTPResponseListner implements Response.Listener<JSONArray> {
+        @Override
+        public void onResponse(JSONArray jsonArray) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    JSONObject object = jsonArray.getJSONObject(i);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+    class HTTPErrorListner implements Response.ErrorListener {
+        @Override
+        public void onErrorResponse(VolleyError error) {
         }
     }
 }
