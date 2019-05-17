@@ -32,7 +32,7 @@ import java.util.Map;
 public class DetailActivity extends AppCompatActivity {
 
     //web url
-    final String URL = "http://192.168.42.191:8080/demo/add_to_cart";
+    final String URL = "http://192.168.42.174:8080/demo/add_to_cart";
 
     CardView small, medium, large;
 
@@ -442,7 +442,7 @@ public class DetailActivity extends AppCompatActivity {
                     js1.put("total", Allprice);
                     js1.put("img_url", Imageurl);
                     // Cart status one still buy the item
-                    js1.put("cart_status",0);
+                    js1.put("cartstatus",0);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

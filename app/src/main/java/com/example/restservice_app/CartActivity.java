@@ -1,6 +1,8 @@
 package com.example.restservice_app;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -9,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,13 +32,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartActivity extends AppCompatActivity implements CartAdapter.OnItemClickListner {
+public class CartActivity extends AppCompatActivity implements CartAdapter.OnItemClickListner, DialogBox_address.DialogAddressListner {
 
-    TextView sub_tot, grand_tot, remove;
+    TextView sub_tot, grand_tot, remove, allprice;
 
     CardView explore, discount1;
 
+    Button address, order;
+    String addressline1, addressline2, fulladdress, telephone;
+
     int id = 1;
+    int pizza_id;
+
     static int clicked_item;
 
     Double delivery = 100.0;
@@ -42,7 +51,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
     Double grand_price;
     Double discount;
 
-    String URL_DATA = "http://192.168.42.191:8080/demo/findByCartId?user_id="+id;
+    String URL_DATA = "http://192.168.42.174:8080/demo/findByCartIdAndUserId?user_id="+id+"&cartstatus=0";
 
     RecyclerView recyclerView;
     CartAdapter adapter;
@@ -57,6 +66,16 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
+        order = findViewById(R.id.pay);
+        address = findViewById(R.id.address);
+
+        address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog();
+            }
+        });
+
         sub_tot = findViewById(R.id.txt_tot);
         grand_tot = findViewById(R.id.txt_grandtot);
 
@@ -68,6 +87,8 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        allprice = findViewById(R.id.allprice);
 
         loadRecyclerviewData();
 
@@ -84,7 +105,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
 
         queue1 = Volley.newRequestQueue(CartActivity.this);
 
-        url1 ="http://192.168.42.191:8080/demo/deleteByCartId?id="+clicked_item;
+        url1 ="http://192.168.42.174:8080/demo/deleteByCartId?id="+clicked_item;
 
         explore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +119,74 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
             @Override
             public void onClick(View v) {
                 Toast.makeText(CartActivity.this, "No Discount or Coupon Available for now!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(addressline1 == null){
+                    Toast.makeText(CartActivity.this, "Please Enter Address!", Toast.LENGTH_LONG).show();
+                }else if(telephone.equals("")){
+                    Toast.makeText(CartActivity.this, "Please Enter Telephone!", Toast.LENGTH_LONG).show();
+                }else {
+
+                    fulladdress = addressline1.concat(addressline2);
+
+                    String url2 = "http://192.168.42.174:8080/demo/findByCartIdAndUserId?user_id="+id+"&cartstatus=0";
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url2, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+
+                                JSONArray orders = new JSONArray(response);
+
+                                for (int i = 0; i < orders.length(); i++) {
+
+                                    JSONObject order = orders.getJSONObject(i);
+
+                                    int id = order.getInt("id");
+                                    pizza_id = id;
+                                    System.out.println(pizza_id + "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555");
+
+
+                                    RequestQueue queue1 = Volley.newRequestQueue(CartActivity.this);
+
+                                    String url1 = "http://192.168.42.174:8080/demo/updateCart1?id=" + pizza_id + "&telephone=" + telephone + "&address=" + addressline1+ "&cart_status=1";
+
+                                    JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
+                                            null, new CartActivity.HTTPResponseListner(), new CartActivity.HTTPErrorListner());
+                                    queue1.add(request1);
+
+
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(CartActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(CartActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                            error.printStackTrace();
+                        }
+                    });
+
+                    Volley.newRequestQueue(CartActivity.this).add(stringRequest);
+
+
+
+                    Intent intent1 = new Intent(CartActivity.this, HomeActivity.class);
+                    finish();
+                    startActivity(intent1);
+                }
+
             }
         });
     }
@@ -139,6 +228,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
                     sub_tot.setText("Rs." + tot_price);
                     tot_price = tot_price + delivery;
                     grand_tot.setText("Rs." + tot_price);
+                    allprice.setText("Rs." + tot_price );
 
 
                     adapter = new CartAdapter(CartActivity.this, cartlist);
@@ -165,8 +255,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
     }
 
 
-
-
     @Override
     public void onItemClick( int position) {
 
@@ -178,6 +266,29 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
                 null, new HTTPResponseListner(), new HTTPErrorListner());
         queue1.add(request1);
 
+    }
+
+    @Override
+    public void applyText(String address1, String address2, String telephone1) {
+        if (address1.equals("")) {
+            Toast.makeText(CartActivity.this, "Address is Empty!", Toast.LENGTH_LONG).show();
+
+        } else if(telephone1.equals("")){
+            Toast.makeText(CartActivity.this, "Mobile Number is Empty!", Toast.LENGTH_LONG).show();
+
+        }else if(telephone1.length() != 10) {
+            Toast.makeText(CartActivity.this, "Invalid Mobile Number!", Toast.LENGTH_LONG).show();
+
+        }else{
+            addressline1 = address1;
+            System.out.println(addressline1 + "0000000000000000000000000000000000000000000000000000");
+
+            addressline2 = address2;
+            System.out.println(addressline2 + "2222222222222222222222222222222222222222222222222222");
+
+            telephone = telephone1;
+            System.out.println(telephone + "2222222222222222222222222222222222222222222222222222");
+        }
     }
 
 
@@ -203,5 +314,11 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
     }
 
 
+    public void openDialog(){
+
+            DialogBox_address dialogBox_address = new DialogBox_address();
+            dialogBox_address.show(getSupportFragmentManager(),"dialogBox_address");
+
+    }
 
 }

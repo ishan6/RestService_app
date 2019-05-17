@@ -2,10 +2,12 @@ package com.example.restservice_app;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -23,10 +25,12 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements ProductAdapter.OnItemClickListner {
 
-    private static final String URL_DATA = "http://192.168.42.191:8080/demo/all";
+    private static final String URL_DATA = "http://192.168.42.174:8080/demo/all";
 
     RecyclerView recyclerView;
     ProductAdapter adapter;
+
+    FloatingActionButton floatingActionButton;
 
     int User_id;
 
@@ -37,6 +41,8 @@ public class HomeActivity extends AppCompatActivity implements ProductAdapter.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        floatingActionButton = findViewById(R.id.cart);
+
         productslist = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerview);
@@ -45,9 +51,17 @@ public class HomeActivity extends AppCompatActivity implements ProductAdapter.On
 
         loadRecyclerviewData();
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         User_id = intent.getIntExtra("USER_ID",1);
-      //  System.out.println(User_id +"nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(HomeActivity.this, CartActivity.class);
+                startActivity(intent1);
+            }
+        });
+
 
     }
 

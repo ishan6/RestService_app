@@ -13,8 +13,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:id="@+id/address_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_margin="15dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:background="#C0BCBC">
+
+                <Button
+                    android:layout_gravity="center"
+                    android:id="@+id/address"
+                    android:layout_width="130dp"
+                    android:layout_height="30dp"
+                    android:paddingTop="5dp"
+                    android:text="Add address"
+                    android:background="#17C74F"
+                    android:gravity="center_horizontal" />
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
         <TextView
-            android:layout_marginTop="10dp"
+            android:layout_below="@+id/address_linear"
             android:layout_marginLeft="10dp"
             android:textSize="20sp"
             android:id="@+id/txt_payment"
@@ -81,11 +108,7 @@
                 android:layout_height="match_parent">
             </android.support.v7.widget.RecyclerView>
 
-
         </RelativeLayout>
-
-
-
 
         <android.support.v7.widget.CardView
             android:layout_marginTop="10dp"
@@ -93,9 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
         </android.support.v7.widget.CardView>
-
 
         <android.support.v7.widget.CardView
             android:id="@+id/card2"
@@ -365,7 +386,67 @@
 
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>3
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/noscroll"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/card4"
+            android:background="#03219B">
+
+            <TextView
+                android:id="@+id/qty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:background="#03219B"
+                android:padding="3dp"
+                android:text="1 Item"
+                android:textColor="#fff"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#03219B"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#fff"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="|"
+                android:padding="3dp" />
+
+            <TextView
+                android:id="@+id/allprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#03219B"
+                android:layout_weight="1"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Rs.4200"
+                android:padding="3dp" />
+
+            <Button
+                android:id="@+id/pay"
+                android:clickable="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="160dp"
+                android:layout_height="35dp"
+                android:text="Place Cash Order"
+                android:textColor="#ffff"
+                android:background="#4257E6"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

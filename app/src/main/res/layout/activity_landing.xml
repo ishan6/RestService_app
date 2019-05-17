@@ -204,7 +204,7 @@
             android:layout_below="@+id/linear2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_weight="1"
@@ -212,9 +212,21 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_width="match_parent"
-                android:scaleType="centerCrop"
-                android:layout_height="140dp"
-                android:src="@drawable/offer"/>
+                android:scaleType="fitXY"
+                android:layout_height="100dp"
+                android:src="@drawable/untitled1"
+                android:alpha="1"/>
+
+            <ImageView
+                android:layout_weight="1"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:scaleType="fitXY"
+                android:layout_height="100dp"
+                android:src="@drawable/untitled2"
+                android:alpha="1"/>
 
         </LinearLayout>
 
@@ -229,6 +241,7 @@
             android:scrollbars="none">
 
             <LinearLayout
+                android:id="@+id/linearlast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -358,6 +371,21 @@
             </LinearLayout>
 
         </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_margin="20dp">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/cart"
+                android:layout_margin="20dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_shopping_cart"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

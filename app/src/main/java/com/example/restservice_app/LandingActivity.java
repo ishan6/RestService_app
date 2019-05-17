@@ -1,6 +1,7 @@
 package com.example.restservice_app;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
@@ -12,11 +13,15 @@ public class LandingActivity extends AppCompatActivity {
 
     CardView card1, card2, card3, card4, card5, card6, card7, card8, card9;
 
+    FloatingActionButton floatingActionButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         setContentView(R.layout.activity_landing);
+
+        floatingActionButton = findViewById(R.id.cart);
 
         card1 = findViewById(R.id.card1);
         card2 = findViewById(R.id.card2);
@@ -88,6 +93,14 @@ public class LandingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 OpenHome();
+            }
+        });
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(LandingActivity.this, CartActivity.class);
+                startActivity(intent1);
             }
         });
 
