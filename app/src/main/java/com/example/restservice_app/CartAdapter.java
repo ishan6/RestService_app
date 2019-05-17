@@ -90,12 +90,11 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
                 RequestQueue x = cartActivity.queue1;
                 System.out.println(x+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaawwwwwwwwa");
 
-               String url1 ="http://192.168.42.137:8080/demo/deleteByCartId?id="+xx;
+               String url1 ="http://192.168.42.191:8080/demo/deleteByCartId?id="+xx;
 
                 JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
                         null, new CartAdapter.HTTPResponseListner(), new CartAdapter.HTTPErrorListner());
                 x.add(request1);
-
 
                 Intent intent = new Intent(mtx,CartActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

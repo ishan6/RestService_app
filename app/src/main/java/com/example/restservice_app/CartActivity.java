@@ -3,6 +3,7 @@ package com.example.restservice_app;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,6 +32,8 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
 
     TextView sub_tot, grand_tot, remove;
 
+    CardView explore, discount1;
+
     int id = 1;
     static int clicked_item;
 
@@ -39,7 +42,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
     Double grand_price;
     Double discount;
 
-    String URL_DATA = "http://192.168.42.137:8080/demo/findByCartId?user_id="+id;
+    String URL_DATA = "http://192.168.42.191:8080/demo/findByCartId?user_id="+id;
 
     RecyclerView recyclerView;
     CartAdapter adapter;
@@ -57,6 +60,9 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         sub_tot = findViewById(R.id.txt_tot);
         grand_tot = findViewById(R.id.txt_grandtot);
 
+        explore = findViewById(R.id.card2);
+        discount1 = findViewById(R.id.card3);
+
         cartlist = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerview);
@@ -65,6 +71,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
 
         loadRecyclerviewData();
 
+       // CheckCartEmptiness();
 
           //  Intent intent = getIntent();
           //  User_id = intent.getIntExtra("USER_ID",1);
@@ -77,9 +84,24 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
 
         queue1 = Volley.newRequestQueue(CartActivity.this);
 
-        url1 ="http://192.168.42.137:8080/demo/deleteByCartId?id="+clicked_item;
+        url1 ="http://192.168.42.191:8080/demo/deleteByCartId?id="+clicked_item;
 
+        explore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CartActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        discount1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(CartActivity.this, "No Discount or Coupon Available for now!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 
 
     public void loadRecyclerviewData(){
@@ -174,9 +196,12 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         }
     }
 
-            static class HTTPErrorListner implements Response.ErrorListener {
+    static class HTTPErrorListner implements Response.ErrorListener {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                 }
-            }
+    }
+
+
+
 }

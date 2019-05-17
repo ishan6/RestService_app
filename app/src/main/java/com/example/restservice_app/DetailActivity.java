@@ -32,7 +32,7 @@ import java.util.Map;
 public class DetailActivity extends AppCompatActivity {
 
     //web url
-    final String URL = "http://192.168.42.137:8080/demo/add_to_cart";
+    final String URL = "http://192.168.42.191:8080/demo/add_to_cart";
 
     CardView small, medium, large;
 
