@@ -9,4 +9,6 @@
     <color name="gradStrat">#19AABB</color>
     <color name="gradStop">#23A7DB</color>
 
+    <color name="black_overlay">#66000000</color>
+
 </resources>

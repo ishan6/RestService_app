@@ -32,7 +32,9 @@ import java.util.Map;
 public class DetailActivity extends AppCompatActivity {
 
     //web url
-    final String URL = "http://192.168.42.174:8080/demo/add_to_cart";
+    final String URL = "http://"+MyIpAddress.MyIpAddress+":8080/demo/add_to_cart";
+
+    LoginActivity loginActivity  = new LoginActivity();
 
     CardView small, medium, large;
 
@@ -69,6 +71,15 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        View decView = getWindow().getDecorView();
+        decView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
         pizzaname = findViewById(R.id.name);
         smallpizza = findViewById(R.id.smallpizzza);
@@ -421,6 +432,8 @@ public class DetailActivity extends AppCompatActivity {
         addtoCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+            //    System.out.println(loginActivity.id+"ID1111111111111111111111111111111111111111111111111111111111111111111");
                 JSONObject js1 = new JSONObject();
 
                 //Setting up Pizza Sizes before add to database;
@@ -433,7 +446,7 @@ public class DetailActivity extends AppCompatActivity {
                 }
                 try {
                  //   System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa+"+User_id);
-                    js1.put("userid", User_id);
+                    js1.put("userid", loginActivity.id);
                     js1.put("pizza_id", Pizza_id);
                     js1.put("pizzaname", Pizzaname1);
                     js1.put("size", PizzaSize);
@@ -479,6 +492,7 @@ public class DetailActivity extends AppCompatActivity {
                 Volley.newRequestQueue(DetailActivity.this).add(jsonObjReq);
 
                 Intent cartdetails = new Intent(DetailActivity.this, CartActivity.class);
+                finish();
                 startActivity(cartdetails);
             }
         });

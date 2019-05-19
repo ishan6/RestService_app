@@ -25,7 +25,7 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements ProductAdapter.OnItemClickListner {
 
-    private static final String URL_DATA = "http://192.168.42.174:8080/demo/all";
+    private static final String URL_DATA = "http://"+MyIpAddress.MyIpAddress+":8080/demo/all";
 
     RecyclerView recyclerView;
     ProductAdapter adapter;
@@ -33,6 +33,7 @@ public class HomeActivity extends AppCompatActivity implements ProductAdapter.On
     FloatingActionButton floatingActionButton;
 
     int User_id;
+    int Item_count = 0;
 
     List<Product> productslist;
 
@@ -57,8 +58,9 @@ public class HomeActivity extends AppCompatActivity implements ProductAdapter.On
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(HomeActivity.this, CartActivity.class);
-                startActivity(intent1);
+
+                CartItemCount();
+
             }
         });
 
@@ -133,5 +135,58 @@ public class HomeActivity extends AppCompatActivity implements ProductAdapter.On
         detailintent.putExtra("USER_ID", User_id);
 
         startActivity(detailintent);
+    }
+
+    public void CartItemCount(){
+        String URL_DATA11 = "http://"+MyIpAddress.MyIpAddress+":8080/demo/findByCartIdAndUserId?user_id="+LoginActivity.id+"&cartstatus=0";
+        System.out.println(LoginActivity.id+"Lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA11, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+
+                    JSONArray carts  = new JSONArray(response);
+
+                    for (int i = 0; i<carts.length(); i++){
+
+                        JSONObject cartobject  = carts.getJSONObject(i);
+
+                        int id = cartobject.getInt("id");
+
+                        Item_count = i+1;
+                        System.out.println(Item_count+"]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+                        System.out.println(Item_count+"pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp");
+
+                    }
+
+                    if(Item_count > 0 ) {
+                        Intent intent1 = new Intent(HomeActivity.this, CartActivity.class);
+                        finish();
+                        startActivity(intent1);
+                    }else{
+
+                        Intent intent1 = new Intent(HomeActivity.this, EmptyActivity.class);
+                        finish();
+                        startActivity(intent1);
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(HomeActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                error.printStackTrace();
+            }
+        });
+
+        Volley.newRequestQueue(this).add(stringRequest);
+
     }
 }

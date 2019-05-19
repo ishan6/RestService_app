@@ -28,17 +28,17 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
 
     int id;
 
+//    int item_count1 = getItemCount();
+
     public Context mtx;
     private List<Cart> cartList;
     private CartAdapter.OnItemClickListner mListner;
 
-    public CartAdapter() {
-
-    }
 
     public interface OnItemClickListner{
         void  onItemClick( int position);
     }
+
 
     public void setOnItemCliclListener(OnItemClickListner listener){
         mListner = listener;
@@ -90,16 +90,27 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
                 RequestQueue x = cartActivity.queue1;
                 System.out.println(x+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaawwwwwwwwa");
 
-               String url1 ="http://192.168.42.174:8080/demo/deleteByCartId?id="+xx;
+                String url1 ="http://"+MyIpAddress.MyIpAddress+":8080/demo/deleteByCartId?id="+xx;
 
                 JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
                         null, new CartAdapter.HTTPResponseListner(), new CartAdapter.HTTPErrorListner());
                 x.add(request1);
 
-                Intent intent = new Intent(mtx,CartActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ((Activity)mtx).finish();
-                mtx.startActivity(intent);
+                System.out.println("GetItemOutnccccccccccccccccccccccccccccccccccccccccccccccccccccccccc+"+getItemCount());
+
+                if(getItemCount() == 1){
+
+                    Intent intent = new Intent(mtx,EmptyActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ((Activity)mtx).finish();
+                    mtx.startActivity(intent);
+                }else {
+
+                    Intent intent = new Intent(mtx, CartActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ((Activity) mtx).finish();
+                    mtx.startActivity(intent);
+                }
 
             }
         });
@@ -191,4 +202,6 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
         public void onErrorResponse(VolleyError error) {
         }
     }
+
+
 }

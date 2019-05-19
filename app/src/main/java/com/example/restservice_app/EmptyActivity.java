@@ -1,25 +1,20 @@
 package com.example.restservice_app;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class EmptyActivity extends AppCompatActivity {
 
-    private static int SPLASH_TIME_OUT = 4000;
+    TextView empty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //screen to full size
-         Window g = getWindow();
-         g.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.TYPE_STATUS_BAR_PANEL);
-
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_empty);
 
         View decView = getWindow().getDecorView();
         decView.setSystemUiVisibility(
@@ -30,16 +25,17 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-        //splash screen control
-        new Handler().postDelayed(new Runnable() {
+
+        empty = (TextView) findViewById(R.id.text_empty);
+
+        empty.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
+            public void onClick(View v) {
+                Intent intent = new Intent(EmptyActivity.this, HomeActivity.class);
                 finish();
+                startActivity(intent);
             }
-        },SPLASH_TIME_OUT);
-
-
+        });
     }
+
 }

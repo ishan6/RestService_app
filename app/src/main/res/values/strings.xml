@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">RestService_app</string>
+    <string name="app_name">Pizza me</string>
     <string name="title_activity_detail">DetailActivity</string>
+
+    <string name="title_activity_empty_cart">EmptyCart</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

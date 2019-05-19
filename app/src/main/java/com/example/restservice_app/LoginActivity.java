@@ -1,5 +1,6 @@
 package com.example.restservice_app;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
@@ -43,12 +45,10 @@ public class LoginActivity extends AppCompatActivity {
 
     String Username1;
     String Password1;
+    static int id;
 
     String outputString;
     String AES = "AES";
-
-    int Log_id;
-
 
     private List<Cart> Cartdetails = new ArrayList<>();
     @Override
@@ -63,14 +63,6 @@ public class LoginActivity extends AppCompatActivity {
 
         text_signup  = findViewById(R.id.txt_signup);
         forgetpass = findViewById(R.id.txt_forgetpass);
-
-        //url and Request Queue
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://192.168.42.191:8080/demo/showusers";
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url,
-                null, new LoginActivity.HTTPResponseListner(), new LoginActivity.HTTPErrorListner());
-        queue.add(request);
 
         text_signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,86 +80,80 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
+
 
     }
 
-        class HTTPResponseListner implements Response.Listener<JSONArray> {
+    public void loadData() {
+        String url ="http://"+MyIpAddress.MyIpAddress+":8080/demo/findByTelephone?telephone="+telephone.getText().toString();
+        System.out.println(MyIpAddress.MyIpAddress+"EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEeee");
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(final JSONArray jsonArray) {
+            public void onResponse(String response) {
+                try {
 
-                        login.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
+                    JSONArray carts = new JSONArray(response);
 
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    try {
-                                        //getting data from database
-                                        JSONObject object = jsonArray.getJSONObject(i);
-                                        final User user = new User();
-                                        user.setTelephone(object.get("telephone").toString());
-                                        user.setPassword(object.get("password").toString());
-                                        user.setUser_id(object.getInt(("user_id")));
+                    for (int i = 0; i < carts.length(); i++) {
 
-                                        //asign data to globle variable
-                                        Username1 = user.getTelephone();
-                                        Password1 = user.getPassword();
+                        JSONObject Userobject = carts.getJSONObject(i);
 
-                                        //   System.out.println(Username1);
-                                        //    System.out.println("kkkkkkkkkkkkkkkkkkkkkkkkkkk"+Password1);
+                         id = Userobject.getInt("user_id");
+                         Username1 = Userobject.getString("telephone");
+                         Password1 = Userobject.getString("password");
 
-                                        try {
-                                            //decrypt password
-                                            outputString = decrypt(Password1, password.getText().toString());
-                                            System.out.println(password.getText().toString() + "0000000000000000000000000000");
-                                            System.out.println(outputString);
-                                            System.out.println(password);
+                         System.out.println(id+"00000000000000000000000000000000000000000000000000000");
 
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
+                            try {
+                                outputString = decrypt(Password1, password.getText().toString());
 
-                                        System.out.println(outputString + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                                        //    System.out.println(telephone+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                                        System.out.println(Password1 + "fffffffffffffffffffffffffffffffffffffffffffffffffff");
+                                if (outputString.equals(password.getText().toString())) {
+                                    System.out.println(outputString+"Okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
 
-                                        //decrypt password null check
-                                        System.out.println(outputString);
-                                        if (outputString == null) {
+                                    final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+                                    progressDialog.setMessage("Validating User....");
+                                    progressDialog.show();
 
-                                            Toast.makeText(LoginActivity.this, "Invalid Username or Password!", Toast.LENGTH_SHORT).show();
-
-                                        } else {
-
-                                            //Checking username and password
-                                            if ((Username1.equals(telephone.getText().toString())) && outputString.equals(password.getText().toString())) {
-
-                                                Log_id = user.getUser_id();
-
-                                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                                intent.putExtra("USER_ID", Log_id);
-                                                startActivity(intent);
-                                                break;
-                                            } else {
-
-
-                                                Toast.makeText(LoginActivity.this, "Invalid Username or Password!", Toast.LENGTH_SHORT).show();
-                                            }
-
-                                        }
-                                    } catch (JSONException e1) {
-                                        e1.printStackTrace();
-                                    }
+                                    Intent intent = new Intent(LoginActivity.this, LandingActivity.class);
+                                    intent.putExtra("ID", id);
+                                    startActivity(intent);
                                 }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(LoginActivity.this, "Username or Password is wrong!", Toast.LENGTH_LONG).show();
                             }
 
-                        });
+                    }
 
-        }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                error.printStackTrace();
+            }
+        });
+
+        Volley.newRequestQueue(this).add(stringRequest);
+
+
+    }
 
 
 
 
-        //AES decryption
+    //AES decryption
     private String decrypt(String outputString, String password)throws Exception{
         SecretKeySpec Key = generateKey(password);
         Cipher bdside = Cipher.getInstance(AES);
@@ -187,13 +173,9 @@ public class LoginActivity extends AppCompatActivity {
         SecretKeySpec secretKeySpec = new SecretKeySpec(Key, "AES");
         return secretKeySpec;
     }
+
 }
 
 
-    class HTTPErrorListner implements Response.ErrorListener {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-        }
-    }
 
-    }
+

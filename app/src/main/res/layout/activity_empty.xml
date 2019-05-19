@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center_vertical"
+    tools:context=".EmptyActivity"
+    android:background="@drawable/gredient1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/empty"
+            android:layout_centerHorizontal="true"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/emptymycart"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/empty"
+            android:id="@+id/text_empty_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Cart is Empty"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/text_empty_msg"
+            android:id="@+id/text_empty_msg2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add More Items to Make me Happy -)"
+            android:textSize="15sp"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+
+
+            <TextView
+                android:layout_margin="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/text_empty_msg2"
+                android:id="@+id/text_empty"
+                android:layout_width="130dp"
+                android:layout_height="30dp"
+                android:text="EXPLORE MENU"
+                android:textSize="15sp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="#45D54B"
+                android:layout_gravity="center"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

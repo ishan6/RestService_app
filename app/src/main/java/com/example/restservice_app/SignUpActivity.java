@@ -46,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     TextView login;
 
-    final String URL = "http://192.168.42.191:8080/demo/register";
+    final String URL = "http://"+MyIpAddress.MyIpAddress+"/demo/register";
 
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -67,15 +67,8 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-/*
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.42.108:8080/demo/showusers";
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url,
-                null, new SignUpActivity.HTTPResponseListner(), new SignUpActivity.HTTPErrorListner());
-        queue.add(request);
 
-*/
         btn_signUp = findViewById(R.id.btn_sign_up);
 
         username = findViewById(R.id.username);
@@ -95,31 +88,37 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-
-
         btn_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Optional Parameters to pass as POST request
+                CheckEmailAndNicAndTelephone();
                 getdata();
 
-                if (newusername.isEmpty() == true) {
+                if (newusername.isEmpty()) {
 
                     Toast.makeText(getApplicationContext(),"Username is Empty!",Toast.LENGTH_SHORT).show();
-                } else if(newtelephone.isEmpty() == true){
+                } else if(newtelephone.isEmpty()){
 
                     Toast.makeText(getApplicationContext(),"Mobile Number is Empty!",Toast.LENGTH_SHORT).show();
                 }else if(newtelephone.length() != 10){
 
                     Toast.makeText(getApplicationContext(),"Invalid Mobile Number!",Toast.LENGTH_SHORT).show();
-                }else if(newemail.isEmpty() == true) {
+                }else if(newtelephone.equals(checktelephone)){
+
+                    Toast.makeText(getApplicationContext(),"Mobile Number is already Registered!",Toast.LENGTH_SHORT).show();
+                }else if(newemail.isEmpty()) {
 
                     Toast.makeText(getApplicationContext(),"Email Address is Empty!",Toast.LENGTH_SHORT).show();
                 }else if(!(newemail.matches(emailPattern))){
 
                     Toast.makeText(getApplicationContext(),"Invalid Email Address!",Toast.LENGTH_SHORT).show();
-                }else if(newnic.isEmpty() == true) {
+                }else if(newemail.equals(checkemail)) {
 
+                    Toast.makeText(getApplicationContext(),"E-mail is Already Registered!",Toast.LENGTH_SHORT).show();
+                }else if(newnic.isEmpty()) {
+                    System.out.println(checkemail+"checkedemail0000000000000000000000000000000000000000000000000000");
+                    System.out.println(newemail+"newemail000000000000000000000000000000000000000000000000");
                     Toast.makeText(getApplicationContext(),"NIC is Empty!",Toast.LENGTH_SHORT).show();
                 }else if(newnic.length() != 10){
 
@@ -127,10 +126,13 @@ public class SignUpActivity extends AppCompatActivity {
                 }else if(!(newnic.matches(nicPatte))){
 
                     Toast.makeText(getApplicationContext(),"Invalid NIC!",Toast.LENGTH_SHORT).show();
-                }else if(newpassword.isEmpty() == true){
+                }else if(newnic.equals(checknic)) {
+
+                    Toast.makeText(getApplicationContext(),"NIC is Already Registered!",Toast.LENGTH_SHORT).show();
+                }else if(newpassword.isEmpty()){
 
                     Toast.makeText(getApplicationContext(),"Password is Empty!",Toast.LENGTH_SHORT).show();
-                }else if(newconfpass.isEmpty() == true){
+                }else if(newconfpass.isEmpty()){
 
                     Toast.makeText(getApplicationContext(),"Password Confirm is Empty!",Toast.LENGTH_SHORT).show();
                 }else if(!(newconfpass.equals(newpassword))){
@@ -239,6 +241,44 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
+    public void CheckEmailAndNicAndTelephone(){
+        String url ="http://"+MyIpAddress.MyIpAddress+":8080/demo/findByNicOrEmailOrTelephone?nic="+nic.getText().toString()+"&email="+email.getText().toString()+"&telephone="+telephone.getText().toString();
 
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+
+                    JSONArray carts = new JSONArray(response);
+
+                    for (int i = 0; i < carts.length(); i++) {
+
+                        JSONObject Userobject = carts.getJSONObject(i);
+
+                        checkemail = Userobject.getString("email");
+                        checknic = Userobject.getString("nic");
+                        checktelephone = Userobject.getString("telephone");
+
+                        System.out.println(checkemail+"00000000000000000000000000000000000000000000000000000");
+                        System.out.println(checknic+"00000000000000000000000000000000000000000000000000000");
+                        System.out.println(checktelephone+"00000000000000000000000000000000000000000000000000000");
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(SignUpActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                error.printStackTrace();
+            }
+        });
+
+        Volley.newRequestQueue(this).add(stringRequest);
+    }
 
 }

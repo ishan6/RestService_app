@@ -71,8 +71,6 @@ public class EditCartActivity extends Activity {
 
     static String URL1;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,7 +149,7 @@ public class EditCartActivity extends Activity {
 
 
         //web url
-        URL1 = "http://192.168.42.174:8080/demo/findByPizzaId?id=" + Pizza_id;
+        URL1 = "http://"+MyIpAddress.MyIpAddress+":8080/demo/findByPizzaId?id=" + Pizza_id;
         System.out.println(URL1);
 
         LoadPizzaPrices();
@@ -479,7 +477,7 @@ public class EditCartActivity extends Activity {
 
               RequestQueue queue1 = Volley.newRequestQueue(EditCartActivity.this);
 
-              String  url1 ="http://192.168.42.174:8080/demo/updateCart?id="+Item_id+"&size="+PizzaSize+"&item="+qty+"&total="+Allprice+"&telephone="+null+"&address="+null;
+              String  url1 ="http://"+MyIpAddress.MyIpAddress+":8080/demo/updateCart?id="+Item_id+"&size="+PizzaSize+"&item="+qty+"&total="+Allprice+"&telephone="+null+"&address="+null;
 
                 JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
                         null, new CartActivity.HTTPResponseListner(), new CartActivity.HTTPErrorListner());

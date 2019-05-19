@@ -13,10 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoadData"></activity>
+        <activity android:name=".EmptyActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar" >
+        </activity>
         <activity
             android:name=".EditCartActivity"
-            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
         <activity
             android:name=".LandingActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
