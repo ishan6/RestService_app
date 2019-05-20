@@ -54,32 +54,75 @@
             android:layout_margin="10dp"
             android:layout_below="@+id/txt_payment"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="50dp">
+
+                <LinearLayout
+                    android:id="@+id/paymenttype1"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/cash"
+                        android:gravity="center_vertical"
+                        android:paddingTop="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:drawablePadding="10dp"/>
+
+                    <ImageView
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="60dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="5dp"
+                        android:padding="3dp"
+                        android:src="@drawable/cash"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cash on Delivery"
+                        android:layout_gravity="center_vertical"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardpaypal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/card1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
 
             <LinearLayout
+                android:id="@+id/paymenttype2"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/paypal"
                     android:gravity="center_vertical"
                     android:paddingTop="2dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:checked="true"
+                    android:layout_height="50dp"
                     android:drawablePadding="10dp"/>
 
                 <ImageView
                     android:layout_marginLeft="5dp"
-                    android:layout_width="50dp"
-                    android:layout_height="40dp"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
                     android:padding="3dp"
-                    android:src="@drawable/delevery"/>
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/paypal"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cash on Delivery"
+                    android:text="Pay With Pyapal"
                     android:layout_gravity="center_vertical"
                     android:textStyle="bold"/>
 
@@ -89,7 +132,7 @@
 
         <RelativeLayout
             android:id="@+id/cart_view"
-            android:layout_below="@+id/card1"
+            android:layout_below="@+id/cardpaypal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

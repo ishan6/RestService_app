@@ -471,12 +471,14 @@ public class EditCartActivity extends Activity {
         });
 
 
+        //Update selected cart item
         Update_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
               RequestQueue queue1 = Volley.newRequestQueue(EditCartActivity.this);
 
+              //Update qty, pizza size,and total price accordingto the item id
               String  url1 ="http://"+MyIpAddress.MyIpAddress+":8080/demo/updateCart?id="+Item_id+"&size="+PizzaSize+"&item="+qty+"&total="+Allprice+"&telephone="+null+"&address="+null;
 
                 JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
@@ -492,6 +494,7 @@ public class EditCartActivity extends Activity {
     }
 
 
+    //this method get the pizza prices according to the size
     private void LoadPizzaPrices() {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL1, new Response.Listener<String>() {
@@ -504,14 +507,18 @@ public class EditCartActivity extends Activity {
 
                         JSONObject pizzasJSONObject  = pizzas.getJSONObject(i);
                         System.out.println("ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt");
+
+                        //small pizza
                         Double price1 = pizzasJSONObject.getDouble("price");
                         pizzaprice1 = price1;
                         System.out.println(pizzaprice1+"11111111111111111111111111111111111111111111111111111");
 
+                        //Medium Pizza
                         Double price2 = pizzasJSONObject.getDouble("medium_price");
                         pizzaprice2 = price2;
                         System.out.println(pizzaprice2+"11111111111111111111111111111111111111111111111111111");
 
+                        //Large Pizza
                         Double price3 = pizzasJSONObject.getDouble("liarge_price");
                         pizzaprice3 = price3;
                         System.out.println(pizzaprice3+"11111111111111111111111111111111111111111111111111111");

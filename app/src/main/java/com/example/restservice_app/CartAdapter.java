@@ -79,9 +79,12 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
         Glide.with(mtx).load(PizzaImage).into(holder.imageView);
 
 
+        //removing the cart item when user clicked remove
         holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //make a object of CartActivity
                 CartActivity cartActivity = new CartActivity();
                 int xx = cart.getId();
 
@@ -90,6 +93,7 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
                 RequestQueue x = cartActivity.queue1;
                 System.out.println(x+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaawwwwwwwwa");
 
+                //this will remove the clicked item from the database
                 String url1 ="http://"+MyIpAddress.MyIpAddress+":8080/demo/deleteByCartId?id="+xx;
 
                 JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
@@ -98,6 +102,7 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
 
                 System.out.println("GetItemOutnccccccccccccccccccccccccccccccccccccccccccccccccccccccccc+"+getItemCount());
 
+                //if no more items in the cart this will redirect user to the emptyActivity otherwise it redirect to the CartActivity
                 if(getItemCount() == 1){
 
                     Intent intent = new Intent(mtx,EmptyActivity.class);
@@ -115,12 +120,14 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
             }
         });
 
+        //User is going to edit the cart
         holder.edit_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 System.out.println("Ohhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 
+                //send data to EditActivity
                 Intent intent = new Intent(mtx, EditCartActivity.class);
 
                 intent.putExtra("ITEM_ID", cart.getId());
