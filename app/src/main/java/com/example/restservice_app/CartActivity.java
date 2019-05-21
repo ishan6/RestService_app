@@ -109,6 +109,8 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
     Boolean cashpay = false;
     Boolean paypalpay = false;
 
+    String PaymentMethod = "";
+
     String amount;
 
     public static final int PaypalRequestCode = 7171;
@@ -209,6 +211,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
                 public void onClick(View v) {
                     cashpay = true;
                     paypalpay = false;
+                    PaymentMethod = "Cash";
 
                     paypal.setChecked(false);
                 }
@@ -219,6 +222,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
             public void onClick(View v) {
                 cashpay = false;
                 paypalpay = true;
+                PaymentMethod = "PayPal";
 
                 cash.setChecked(false);
             }
@@ -495,7 +499,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
                          *Update user telephone, address, and the cartstatus to 1 according to the user id
                          *cartstatus 0 means user did his payment
                          */
-                        String url1 = "http://" + MyIpAddress.MyIpAddress + ":8080/demo/updateCart1?id=" + pizza_id + "&telephone=" + telephone + "&address=" + addressline1 + "&cart_status=1";
+                        String url1 = "http://" + MyIpAddress.MyIpAddress + ":8080/demo/updateCart1?id=" + pizza_id + "&telephone=" + telephone + "&address=" + addressline1 + "&cart_status=1&paymentMethod="+PaymentMethod;
 
                         JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
                                 null, new CartActivity.HTTPResponseListner(), new CartActivity.HTTPErrorListner());
