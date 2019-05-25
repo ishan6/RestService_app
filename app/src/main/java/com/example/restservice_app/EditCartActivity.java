@@ -3,36 +3,31 @@ package com.example.restservice_app;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.example.restservice_app.Config.MyIpAddress;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 
 public class EditCartActivity extends Activity {
 
@@ -149,7 +144,7 @@ public class EditCartActivity extends Activity {
 
 
         //web url
-        URL1 = "http://"+MyIpAddress.MyIpAddress+":8080/demo/findByPizzaId?id=" + Pizza_id;
+        URL1 = "http://"+ MyIpAddress.MyIpAddress+":8080/demo/findByPizzaId?id=" + Pizza_id;
         System.out.println(URL1);
 
         LoadPizzaPrices();
@@ -476,18 +471,27 @@ public class EditCartActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-              RequestQueue queue1 = Volley.newRequestQueue(EditCartActivity.this);
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-              //Update qty, pizza size,and total price accordingto the item id
-              String  url1 ="http://"+MyIpAddress.MyIpAddress+":8080/demo/updateCart?id="+Item_id+"&size="+PizzaSize+"&item="+qty+"&total="+Allprice+"&telephone="+null+"&address="+null;
+                if (networkInfo != null && networkInfo.isConnected()) {
 
-                JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
-                        null, new CartActivity.HTTPResponseListner(), new CartActivity.HTTPErrorListner());
-                queue1.add(request1);
+                    RequestQueue queue1 = Volley.newRequestQueue(EditCartActivity.this);
 
-                Intent intent1 = new Intent(EditCartActivity.this, CartActivity.class);
-                finish();
-                startActivity(intent1);
+                    //Update qty, pizza size,and total price accordingto the item id
+                    String url1 = "http://" + MyIpAddress.MyIpAddress + ":8080/demo/updateCart?id=" + Item_id + "&size=" + PizzaSize + "&item=" + qty + "&total=" + Allprice + "&telephone=" + null + "&address=" + null;
+
+                    JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
+                            null, new CartActivity.HTTPResponseListner(), new CartActivity.HTTPErrorListner());
+                    queue1.add(request1);
+
+                    Intent intent1 = new Intent(EditCartActivity.this, CartActivity.class);
+                    finish();
+                    startActivity(intent1);
+                }else{
+
+                    Snackbar.make(findViewById(R.id.root), "No Internet Connection",Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 

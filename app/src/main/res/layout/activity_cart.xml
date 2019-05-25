@@ -11,7 +11,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/root">
 
         <LinearLayout
             android:id="@+id/address_linear"
@@ -122,7 +123,50 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pay With Pyapal"
+                    android:text="Pay With Paypal"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardpayhere"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/cardpaypal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <LinearLayout
+                android:id="@+id/paymenttype3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/payhere"
+                    android:gravity="center_vertical"
+                    android:paddingTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:drawablePadding="10dp"/>
+
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:padding="3dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/payhere"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pay With PayHere"
                     android:layout_gravity="center_vertical"
                     android:textStyle="bold"/>
 
@@ -132,7 +176,7 @@
 
         <RelativeLayout
             android:id="@+id/cart_view"
-            android:layout_below="@+id/cardpaypal"
+            android:layout_below="@+id/cardpayhere"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -155,7 +199,10 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/card2"
-           android:layout_margin="10dp"
+           android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_below="@id/cart_view"
             android:layout_width="match_parent"
             android:layout_height="60dp">
@@ -260,164 +307,164 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="60dp"
-                    android:src="@drawable/ic_forward"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_forward" />
 
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:id="@+id/card4"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_below="@+id/card3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/card3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right">
 
-            <RelativeLayout
-                android:gravity="right"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/linear1"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:gravity="right">
 
-                    <TextView
-                        android:layout_weight="1"
-                        android:layout_width="105dp"
+                    <LinearLayout
+                        android:id="@+id/linear1"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sub Total"/>
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="30dp"
-                        android:gravity="center"
+                        <TextView
+                            android:layout_width="105dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Sub Total" />
+
+                        <TextView
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text=":" />
+
+                        <TextView
+                            android:id="@+id/txt_tot"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:text="Rs.2000.00" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear2"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=":"/>
+                        android:layout_below="@+id/linear1"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/txt_tot"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:paddingRight="5dp"
-                        android:layout_width="100dp"
+                        <TextView
+                            android:layout_width="105dp"
+
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Discount" />
+
+                        <TextView
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text=":" />
+
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:text="-"
+                            android:textAlignment="center" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear3"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rs.2000.00"
-                        android:layout_marginRight="5dp"/>
+                        android:layout_below="@+id/linear2"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="105dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="delevery Charge" />
 
-                <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/linear2"
-                    android:layout_below="@+id/linear1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text=":" />
 
-                    <TextView
-                        android:layout_weight="1"
 
-                        android:layout_width="105dp"
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:text="Rs.100.00" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear4"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Discount"/>
+                        android:layout_below="@+id/linear3"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text=":"/>
+                        <TextView
+                            android:layout_width="105dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:text="Grand Total"
+                            android:textColor="#030303" />
 
-
-                    <TextView
-                        android:gravity="right"
-                        android:paddingRight="5dp"
-                        android:layout_width="100dp"
-                        android:textAlignment="center"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:layout_marginRight="5dp"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/linear3"
-                    android:layout_below="@+id/linear2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_weight="1"
-                        android:layout_width="105dp"
-                        android:layout_height="wrap_content"
-                        android:text="delevery Charge"/>
-
-                    <TextView
-                        android:layout_width="30dp"
-                        android:gravity="center"
-                        android:layout_height="wrap_content"
-                        android:text=":"/>
+                        <TextView
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text=":" />
 
 
-                    <TextView
-                        android:gravity="right"
-                        android:paddingRight="5dp"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:text="Rs.100.00" />
+                        <TextView
+                            android:id="@+id/txt_grandtot"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:gravity="right"
+                            android:paddingRight="5dp"
+                            android:text="Rs.100.00"
+                            android:textColor="#0F0F0F" />
 
-                </LinearLayout>
+                    </LinearLayout>
 
-                <LinearLayout
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/linear4"
-                    android:layout_below="@+id/linear3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:textColor="#030303"
-                        android:layout_width="105dp"
-                        android:layout_gravity="left"
-                        android:layout_height="wrap_content"
-                        android:text="Grand Total"/>
-
-                    <TextView
-                        android:layout_width="30dp"
-                        android:gravity="center"
-                        android:layout_height="wrap_content"
-                        android:text=":"/>
-
-
-                    <TextView
-                        android:id="@+id/txt_grandtot"
-                        android:gravity="right"
-                        android:paddingRight="5dp"
-                        android:textColor="#0F0F0F"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:text="Rs.100.00" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
+                </RelativeLayout>
 
             </LinearLayout>
 

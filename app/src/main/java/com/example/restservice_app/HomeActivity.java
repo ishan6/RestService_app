@@ -3,11 +3,14 @@ package com.example.restservice_app;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -15,6 +18,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.restservice_app.Adapter.ProductAdapter;
+import com.example.restservice_app.Config.MyIpAddress;
+import com.example.restservice_app.DataSource.Product;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +31,7 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements ProductAdapter.OnItemClickListner {
 
-    private static final String URL_DATA = "http://"+MyIpAddress.MyIpAddress+":8080/demo/all";
+    private static final String URL_DATA = "http://"+ MyIpAddress.MyIpAddress+":8080/demo/all";
 
     RecyclerView recyclerView;
     ProductAdapter adapter;
@@ -59,7 +65,16 @@ public class HomeActivity extends AppCompatActivity implements ProductAdapter.On
             @Override
             public void onClick(View v) {
 
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+                if(networkInfo != null && networkInfo.isConnected()){
+
                 CartItemCount();
+                }else{
+
+                    Snackbar.make(findViewById(R.id.root), "No Internet Connection",Snackbar.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -138,7 +153,7 @@ public class HomeActivity extends AppCompatActivity implements ProductAdapter.On
     }
 
     public void CartItemCount(){
-        String URL_DATA11 = "http://"+MyIpAddress.MyIpAddress+":8080/demo/findByCartIdAndUserId?user_id="+LoginActivity.id+"&cartstatus=0";
+        String URL_DATA11 = "http://"+ MyIpAddress.MyIpAddress+":8080/demo/findByCartIdAndUserId?user_id="+LoginActivity.id+"&cartstatus=0";
         System.out.println(LoginActivity.id+"Lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA11, new Response.Listener<String>() {

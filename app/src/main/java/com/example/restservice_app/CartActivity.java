@@ -1,27 +1,23 @@
 package com.example.restservice_app;
 
 import android.app.Activity;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +29,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.restservice_app.Config.ConfigClientId;
+import com.example.restservice_app.Config.MyIpAddress;
+import com.example.restservice_app.DataSource.Cart;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -47,6 +46,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import lk.payhere.androidsdk.PHConfigs;
+import lk.payhere.androidsdk.PHConstants;
+import lk.payhere.androidsdk.PHMainActivity;
+import lk.payhere.androidsdk.PHResponse;
+import lk.payhere.androidsdk.model.InitRequest;
+import lk.payhere.androidsdk.model.Item;
+import lk.payhere.androidsdk.model.StatusResponse;
+
 
 public class CartActivity extends AppCompatActivity implements CartAdapter.OnItemClickListner, DialogBox_address.DialogAddressListner {
 
@@ -56,7 +63,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
     //Defining Card View Variables
     CardView explore, discount1;
 
-    RadioButton cash,paypal;
+    RadioButton cash,paypal, payhere;
 
     //Defining Button Variables
     Button address, order;
@@ -89,7 +96,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
     /*This URL get data from database according to the user_id and start status
     *cartstatus = 0 means user did not make a payment for the item, items still in the cart
     */
-    String URL_DATA = "http://"+MyIpAddress.MyIpAddress+":8080/demo/findByCartIdAndUserId?user_id="+loginActivity.id+"&cartstatus=0";
+    String URL_DATA = "http://"+ MyIpAddress.MyIpAddress+":8080/demo/findByCartIdAndUserId?user_id="+loginActivity.id+"&cartstatus=0";
 
     //Recycler view
     RecyclerView recyclerView;
@@ -108,6 +115,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
 
     Boolean cashpay = false;
     Boolean paypalpay = false;
+    Boolean payherepay = false;
 
     String PaymentMethod = "";
 
@@ -117,7 +125,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
 
     private  static PayPalConfiguration config = new PayPalConfiguration()
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-            .clientId(Config.PayPal_client_id);
+            .clientId(ConfigClientId.PayPal_client_id);
 
 
     @Override
@@ -131,8 +139,9 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        cash =(RadioButton) findViewById(R.id.cash);
-        paypal =(RadioButton) findViewById(R.id.paypal);
+        cash = (RadioButton) findViewById(R.id.cash);
+        paypal = (RadioButton) findViewById(R.id.paypal);
+        payhere = (RadioButton) findViewById(R.id.payhere);
 
         order = findViewById(R.id.pay);
         address = findViewById(R.id.address);
@@ -210,29 +219,56 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
                 @Override
                 public void onClick(View v) {
                     cashpay = true;
+                    payherepay = false;
                     paypalpay = false;
+
                     PaymentMethod = "Cash";
 
                     paypal.setChecked(false);
+                    payhere.setChecked(false);
                 }
             });
 
-        paypal.setOnClickListener(new View.OnClickListener() {
+            paypal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cashpay = false;
                 paypalpay = true;
+                payherepay = false;
+                cashpay = false;
+
                 PaymentMethod = "PayPal";
 
                 cash.setChecked(false);
-            }
-        });
+                payhere.setChecked(false);
+                }
+            });
+
+            payhere.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    payherepay = true;
+                    cashpay = false;
+                    paypalpay = false;
+
+                    PaymentMethod = "PayHere";
+
+                    cash.setChecked(false);
+                    paypal.setChecked(false);
+
+
+                }
+            });
 
 
             //User going to pay for the cart
             order.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                    NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+                    if (networkInfo != null && networkInfo.isConnected()) {
 
                         //Checking whether user enter the address and telephone
                         if (addressline1 == null) {
@@ -244,13 +280,20 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
                             if (paypalpay == true) {
 
                                 paymentProcess();
-                            }else if(cashpay == true) {
+                            } else if (cashpay == true) {
 
                                 UpdateCart();
-                            }else if(cashpay == false && paypalpay == false){
+                            }else if(payherepay == true){
+
+                                PayHereProcess();
+                            } else if (cashpay == false && paypalpay == false) {
                                 Toast.makeText(CartActivity.this, "Please Select a payment method!", Toast.LENGTH_LONG).show();
                             }
                         }
+                    }else{
+
+                        Snackbar.make(findViewById(R.id.root), "No Internet Connection",Snackbar.LENGTH_SHORT).show();
+                    }
                 }
             });
     }
@@ -418,50 +461,76 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(requestCode == PaypalRequestCode){
-            System.out.println("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
+        if(payherepay == true){
+            //TODO process response
+            if (requestCode == 11010 && data != null && data.hasExtra(PHConstants.INTENT_EXTRA_RESULT)) {
+                PHResponse<StatusResponse> response = (PHResponse<StatusResponse>) data.getSerializableExtra(PHConstants.INTENT_EXTRA_RESULT);
+                String msg;
+                if (response.isSuccess()) {
+                    msg = "Activity result:" + response.getData().toString();
+                    Log.d("A", msg);
+                    System.out.println(msg+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                    Intent intent = new Intent(this, HomeActivity.class);
+                    finish();
+                    startActivity(intent);
+                    UpdateCart();
+                    notifyme();
+                } else {
+                    msg = "Result:" + response.toString();
+                    Log.d("B", msg);
+                    System.out.println(msg+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                }
+                //textView.setText(msg);
+            }
 
-            if(resultCode == RESULT_OK){
-                System.out.println("OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKkk");
-                PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+        }else if(paypalpay == true){
 
-                if(confirmation != null){
-                    System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2");
+            if (requestCode == PaypalRequestCode) {
+                System.out.println("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
 
-                    try {
-                        String paymentDetails = confirmation.toString();
+                if (resultCode == RESULT_OK) {
+                    System.out.println("OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKkk");
+                    PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
 
-                        NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
-                                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                                .setSmallIcon(R.drawable.mylogo2)
-                                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.mylogo2))
-                                .setContentText("Hey")
-                                .setContentTitle("Pizza me")
-                                .setSubText("Your Order has been Placed Successfully")
-                                .setContentText("Your Amount is $"+ amount);
+                    if (confirmation != null) {
+                        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2");
 
-                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                        notificationManager.notify(1,builder.build());
+                        try {
+                            String paymentDetails = confirmation.toString();
 
-                        UpdateCart();
+                            NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+                                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                                    .setSmallIcon(R.drawable.mylogo2)
+                                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.mylogo2))
+                                    .setContentText("Hey")
+                                    .setContentTitle("Pizza me")
+                                    .setSubText("Your Order has been Placed Successfully")
+                                    .setContentText("Your Amount is $" + amount);
+
+                            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            notificationManager.notify(1, builder.build());
+
+                            UpdateCart();
 
                         /*
                         Intent intent = new Intent(CartActivity.this, HomeActivity.class);
                         finish();
                         startActivity(intent);*/
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-                }else if(requestCode == Activity.RESULT_CANCELED){
-                    Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show();
+                    } else if (requestCode == Activity.RESULT_CANCELED) {
+                        Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh");
                 }
-            }else{
-                System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh");
+            } else if (requestCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+                Toast.makeText(this, "Invalid", Toast.LENGTH_SHORT).show();
             }
-        }else if(requestCode == PaymentActivity.RESULT_EXTRAS_INVALID){
-            Toast.makeText(this, "Invalid", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -531,6 +600,36 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnIte
         Intent intent1 = new Intent(CartActivity.this, HomeActivity.class);
         finish();
         startActivity(intent1);
+    }
+
+    public void PayHereProcess(){
+        InitRequest req = new InitRequest();
+        req.setMerchantId("1212567"); // Your Merchant ID
+        req.setMerchantSecret("123456789"); // Your Merchant secret
+        req.setAmount(tot_price); // Amount which the customer should pay
+        req.setCurrency("LKR"); // Currency
+        req.setOrderId("ItemNo12345"); // Unique ID for your payment transaction
+        req.setItemsDescription("Pizza Description");// Item title or Order/Invoice number
+        req.setCustom1("This is the custom message 1");
+        req.setCustom2("This is the custom message 2");
+        req.getCustomer().setFirstName("Ishan");
+        req.getCustomer().setLastName("Perera");
+        req.getCustomer().setEmail("samanp@gmail.com");
+        req.getCustomer().setPhone("+94771234567");
+        req.getCustomer().getAddress().setAddress("No.1, Galle Road,");
+        req.getCustomer().getAddress().setCity("Colombo");
+        req.getCustomer().getAddress().setCountry("Sri Lanka");
+        req.getCustomer().getDeliveryAddress().setAddress("No.2, Kandy Road,");
+        req.getCustomer().getDeliveryAddress().setCity("Kadawatha");
+        req.getCustomer().getDeliveryAddress().setCountry("Sri Lanka");
+        req.getItems().add( new Item(null, "Pizza", item_count));
+
+
+        Intent intent = new Intent(this, PHMainActivity.class);
+        intent.putExtra(PHConstants.INTENT_EXTRA_DATA, req);
+        PHConfigs.setBaseUrl(PHConfigs.SANDBOX_URL);
+        startActivityForResult(intent, 11010); //unique request ID like private final static int PAYHERE_REQUEST = 11010;
+
     }
 
 }

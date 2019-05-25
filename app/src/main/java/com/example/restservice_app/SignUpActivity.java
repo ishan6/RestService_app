@@ -1,38 +1,32 @@
 package com.example.restservice_app;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.restservice_app.Config.MyIpAddress;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     TextView login;
 
-    final String URL = "http://"+MyIpAddress.MyIpAddress+"/demo/register";
+    final String URL = "http://"+ MyIpAddress.MyIpAddress+":8080/demo/register";
 
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -60,14 +54,13 @@ public class SignUpActivity extends AppCompatActivity {
 
     String checktelephone, checkemail, checknic;
 
-    int databaseroundcount = 0;
+    int DuplicateUserdataCheck = 0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
 
         btn_signUp = findViewById(R.id.btn_sign_up);
 
@@ -91,9 +84,14 @@ public class SignUpActivity extends AppCompatActivity {
         btn_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Optional Parameters to pass as POST request
-                CheckEmailAndNicAndTelephone();
-                getdata();
+
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                if(networkInfo != null && networkInfo.isConnected()) {
+
+                    CheckEmailAndNicAndTelephone();
+                    getdata();
+
 
                 if (newusername.isEmpty()) {
 
@@ -106,8 +104,8 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Invalid Mobile Number!",Toast.LENGTH_SHORT).show();
                 }else if(newtelephone.equals(checktelephone)){
 
-                    Toast.makeText(getApplicationContext(),"Mobile Number is already Registered!",Toast.LENGTH_SHORT).show();
-                }else if(newemail.isEmpty()) {
+                        Toast.makeText(getApplicationContext(),"Mobile Number is already Registered!",Toast.LENGTH_SHORT).show();
+                    }else if(newemail.isEmpty()) {
 
                     Toast.makeText(getApplicationContext(),"Email Address is Empty!",Toast.LENGTH_SHORT).show();
                 }else if(!(newemail.matches(emailPattern))){
@@ -117,8 +115,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                     Toast.makeText(getApplicationContext(),"E-mail is Already Registered!",Toast.LENGTH_SHORT).show();
                 }else if(newnic.isEmpty()) {
-                    System.out.println(checkemail+"checkedemail0000000000000000000000000000000000000000000000000000");
-                    System.out.println(newemail+"newemail000000000000000000000000000000000000000000000000");
+
                     Toast.makeText(getApplicationContext(),"NIC is Empty!",Toast.LENGTH_SHORT).show();
                 }else if(newnic.length() != 10){
 
@@ -148,51 +145,53 @@ public class SignUpActivity extends AppCompatActivity {
                     }catch (Exception e){
                         e.printStackTrace();
                     }
+                        try {
+                            js.put("name", newusername);
+                            js.put("telephone", newtelephone);
+                            js.put("email", newemail);
+                            js.put("nic", newnic);
+                            js.put("password", encript);
+                            //Default user is active when registered moment
+                            js.put("user_status", 1);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                    try {
-                        js.put("name", newusername);
-                        js.put("telephone", newtelephone);
-                        js.put("email", newemail);
-                        js.put("nic", newnic);
-                        js.put("password", encript);
-                        //Default user is active when registered moment
-                        js.put("user_status",1);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        // Make request for JSONObject
+                        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+                                Request.Method.POST, URL, js,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        //   Log.d(TAG, response.toString() + " i am queen");
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                //  VolleyLog.d(TAG, "Error: " + error.getMessage());
+                                error.printStackTrace();
+                            }
+                        }) {
+
+
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                HashMap<String, String> headers = new HashMap<String, String>();
+                                headers.put("Content-Type", "application/json; charset=utf-8");
+                                return headers;
+                            }
+
+                        };
+
+                        // Adding request to request queue
+                        Volley.newRequestQueue(SignUpActivity.this).add(jsonObjReq);
+
+                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                        startActivity(intent);
+
                     }
-
-                    // Make request for JSONObject
-                    JsonObjectRequest jsonObjReq = new JsonObjectRequest(
-                            Request.Method.POST, URL, js,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    //   Log.d(TAG, response.toString() + " i am queen");
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            //  VolleyLog.d(TAG, "Error: " + error.getMessage());
-                            error.printStackTrace();
-                        }
-                    }) {
-
-
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-                            HashMap<String, String> headers = new HashMap<String, String>();
-                            headers.put("Content-Type", "application/json; charset=utf-8");
-                            return headers;
-                        }
-
-                    };
-
-                    // Adding request to request queue
-                    Volley.newRequestQueue(SignUpActivity.this).add(jsonObjReq);
-
-                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                    startActivity(intent);
-
+                }else{
+                    Snackbar.make(findViewById(R.id.top), "No Internet Connection",Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -242,11 +241,12 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     public void CheckEmailAndNicAndTelephone(){
-        String url ="http://"+MyIpAddress.MyIpAddress+":8080/demo/findByNicOrEmailOrTelephone?nic="+nic.getText().toString()+"&email="+email.getText().toString()+"&telephone="+telephone.getText().toString();
+        String url ="http://"+ MyIpAddress.MyIpAddress+":8080/demo/findByNicOrEmailOrTelephone?nic="+nic.getText().toString()+"&email="+email.getText().toString()+"&telephone="+telephone.getText().toString();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                getdata();
                 try {
 
                     JSONArray carts = new JSONArray(response);

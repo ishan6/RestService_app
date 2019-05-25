@@ -1,7 +1,8 @@
 package com.example.restservice_app;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
@@ -18,6 +19,8 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         setContentView(R.layout.activity_landing);
+
+        CheckInternetConnection();
 
         card1 = findViewById(R.id.card1);
         card2 = findViewById(R.id.card2);
@@ -97,5 +100,17 @@ public class LandingActivity extends AppCompatActivity {
     private void OpenHome(){
         Intent intent = new Intent(LandingActivity.this, HomeActivity.class);
         startActivity(intent);
+    }
+
+    public void CheckInternetConnection(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if(networkInfo != null && networkInfo.isConnected()){
+
+        }else{
+            Intent intent = new Intent(this,NoInternetActivity.class);
+            startActivity(intent);
+        }
     }
 }

@@ -3,26 +3,34 @@ package com.example.restservice_app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.example.restservice_app.Config.MyIpAddress;
+import com.example.restservice_app.DataSource.Cart;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolder>{
 
@@ -84,39 +92,47 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
             @Override
             public void onClick(View v) {
 
-                //make a object of CartActivity
-                CartActivity cartActivity = new CartActivity();
-                int xx = cart.getId();
+                ConnectivityManager connectivityManager = (ConnectivityManager) mtx.getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-                System.out.println(xx+"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+                if (networkInfo != null && networkInfo.isConnected()) {
 
-                RequestQueue x = cartActivity.queue1;
-                System.out.println(x+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaawwwwwwwwa");
+                    //make a object of CartActivity
+                    CartActivity cartActivity = new CartActivity();
+                    int xx = cart.getId();
 
-                //this will remove the clicked item from the database
-                String url1 ="http://"+MyIpAddress.MyIpAddress+":8080/demo/deleteByCartId?id="+xx;
+                    System.out.println(xx + "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
 
-                JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
-                        null, new CartAdapter.HTTPResponseListner(), new CartAdapter.HTTPErrorListner());
-                x.add(request1);
+                    RequestQueue x = cartActivity.queue1;
+                    System.out.println(x + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaawwwwwwwwa");
 
-                System.out.println("GetItemOutnccccccccccccccccccccccccccccccccccccccccccccccccccccccccc+"+getItemCount());
+                    //this will remove the clicked item from the database
+                    String url1 = "http://" + MyIpAddress.MyIpAddress + ":8080/demo/deleteByCartId?id=" + xx;
 
-                //if no more items in the cart this will redirect user to the emptyActivity otherwise it redirect to the CartActivity
-                if(getItemCount() == 1){
+                    JsonArrayRequest request1 = new JsonArrayRequest(Request.Method.GET, url1,
+                            null, new CartAdapter.HTTPResponseListner(), new CartAdapter.HTTPErrorListner());
+                    x.add(request1);
 
-                    Intent intent = new Intent(mtx,EmptyActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    ((Activity)mtx).finish();
-                    mtx.startActivity(intent);
-                }else {
+                    System.out.println("GetItemOutnccccccccccccccccccccccccccccccccccccccccccccccccccccccccc+" + getItemCount());
 
-                    Intent intent = new Intent(mtx, CartActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    ((Activity) mtx).finish();
-                    mtx.startActivity(intent);
+                    //if no more items in the cart this will redirect user to the emptyActivity otherwise it redirect to the CartActivity
+                    if (getItemCount() == 1) {
+
+                        Intent intent = new Intent(mtx, EmptyActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ((Activity) mtx).finish();
+                        mtx.startActivity(intent);
+                    } else {
+
+                        Intent intent = new Intent(mtx, CartActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ((Activity) mtx).finish();
+                        mtx.startActivity(intent);
+                    }
+
+                }else{
+
                 }
-
             }
         });
 
@@ -159,6 +175,7 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
 
         public TextView textname, textViewdescription, textViewtotal, textsize, textitem, remove, edit_cart;
         public ImageView imageView;
+        public RelativeLayout relativeLayout;
 
         public CartViewHolder(View itemView) {
             super(itemView);
@@ -169,6 +186,8 @@ public class CartAdapter extends  RecyclerView.Adapter<CartAdapter.CartViewHolde
             textsize = itemView.findViewById(R.id.size);
             textitem = itemView.findViewById(R.id.item);
             textViewtotal = itemView.findViewById(R.id.price);
+
+            relativeLayout = itemView.findViewById(R.id.root);
 
             remove = itemView.findViewById(R.id.remove);
             edit_cart = itemView.findViewById(R.id.editCart);

@@ -1,4 +1,4 @@
-package com.example.restservice_app;
+package com.example.restservice_app.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.restservice_app.DataSource.Product;
+import com.example.restservice_app.R;
 
 import java.util.List;
 

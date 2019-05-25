@@ -1,4 +1,4 @@
-package com.example.restservice_app;
+package com.example.restservice_app.DataSource;
 
 public class User {
     private int user_id;

@@ -1,29 +1,26 @@
 package com.example.restservice_app;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
+import com.example.restservice_app.Config.MyIpAddress;
+import com.example.restservice_app.DataSource.Cart;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -83,7 +80,17 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadData();
+
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+                if(networkInfo != null && networkInfo.isConnected()) {
+
+                    loadData();
+                }else{
+
+                    Snackbar.make(findViewById(R.id.top), "No Internet Connection",Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -91,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loadData() {
-        String url ="http://"+MyIpAddress.MyIpAddress+":8080/demo/findByTelephone?telephone="+telephone.getText().toString();
+        String url ="http://"+ MyIpAddress.MyIpAddress+":8080/demo/findByTelephone?telephone="+telephone.getText().toString();
         System.out.println(MyIpAddress.MyIpAddress+"EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEeee");
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
